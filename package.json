@@ -1,14 +1,29 @@
 {
-  "author": "Evan Tahler <evantahler@gmail.com>",
-  "name": "elasticdump",
-  "description": "import and export tools for elasticsearch",
-  "version": "0.16.1",
+  "author": "John Kim <yj0109@gmail.com>",
+  "name": "esdump",
+  "description": "from elasticdump 0.16.1",
+  "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "git://github.com/taskrabbit/elasticsearch-dump.git"
+    "url": "git+https://github.com/youngjunkim/esdump-yj.git"
   },
   "main": "elasticdump.js",
-  "keywords": ["elasticsearch", "dump", "elasticdump", "import", "export", "transfer", "migrate", "migartion", "elasitic", "cluster", "elastic-dump", "elastic dump"],
+  "keywords": [
+    "esdump",
+    "esdump-yj",
+    "elasticsearch",
+    "dump",
+    "elasticdump",
+    "import",
+    "export",
+    "transfer",
+    "migrate",
+    "migartion",
+    "elasitic",
+    "cluster",
+    "elastic-dump",
+    "elastic dump"
+  ],
   "engines": {
     "node": ">=0.9.0"
   },
@@ -23,10 +38,18 @@
     "should": "latest"
   },
   "bin": {
-    "elasticdump": "./bin/elasticdump",
+    "elasticdump": "./bin/esdump",
     "multielasticdump": "./bin/multielasticdump"
   },
   "scripts": {
     "test": "mocha"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/youngjunkim/esdump-yj/issues"
+  },
+  "homepage": "https://github.com/youngjunkim/esdump-yj#readme",
+  "directories": {
+    "test": "test"
+  },
+  "license": "ISC"
 }
