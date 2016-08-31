@@ -137,7 +137,11 @@ elasticdump.prototype.dump = function(callback, continuing, limit, offset, total
                 for (var i = 0; i < data.length; i++) {
 
                     if (data[i]._source.title && data[i]._source.words) {
-                        // data[0]._source.date = 'none';
+                        //for source_type grants_* 
+                        if (typeof data[i]._source.meta.award_floor != "number") delete data[i]._source.meta.award_floor;
+                        if (typeof data[i]._source.meta.award_ceiling != "number") delete data[i]._source.meta.award_ceiling;
+                        if (typeof data[i]._source.meta.estimated_funding != "number") delete data[i]._source.meta.estimated_funding;
+
                         delete data[i]._source.top_words;
                         data01.push(data[i]);
                     }
