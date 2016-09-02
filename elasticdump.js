@@ -137,10 +137,31 @@ elasticdump.prototype.dump = function(callback, continuing, limit, offset, total
                 for (var i = 0; i < data.length; i++) {
 
                     if (data[i]._source.title && data[i]._source.words) {
+                        
                         //for source_type grants_* 
-                        if (typeof data[i]._source.meta.award_floor != "number") delete data[i]._source.meta.award_floor;
-                        if (typeof data[i]._source.meta.award_ceiling != "number") delete data[i]._source.meta.award_ceiling;
-                        if (typeof data[i]._source.meta.estimated_funding != "number") delete data[i]._source.meta.estimated_funding;
+                        if (data[i]._source.meta.award_floor) {
+                            if (data[i]._source.meta.award_floor != 'none') {
+                                data[i]._source.meta.award_floor = (typeof data[i]._source.meta.award_floor == "number") ? parseInt(data[i]._source.meta.award_floor) : 0;
+                            } else {
+                                delete data[i]._source.meta.award_floor;
+                            }
+                        }
+
+                        if (data[i]._source.meta.award_ceiling) {
+                            if (data[i]._source.meta.award_ceiling != 'none') {
+                                data[i]._source.meta.award_ceiling = (typeof data[i]._source.meta.award_ceiling == "number") ? parseInt(data[i]._source.meta.award_ceiling) : 0;
+                            } else {
+                                delete data[i]._source.meta.award_ceiling;
+                            }
+                        }
+
+                        if (data[i]._source.meta.estimated_funding) {
+                            if (data[i]._source.meta.estimated_funding != 'none') {
+                                data[i]._source.meta.estimated_funding = (typeof data[i]._source.meta.estimated_funding == "number") ? parseInt(data[i]._source.meta.estimated_funding) : 0;
+                            } else {
+                                delete data[i]._source.meta.estimated_funding;
+                            }
+                        }
 
                         delete data[i]._source.top_words;
                         data01.push(data[i]);
