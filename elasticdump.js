@@ -137,7 +137,7 @@ elasticdump.prototype.dump = function(callback, continuing, limit, offset, total
                 for (var i = 0; i < data.length; i++) {
 
                     if (data[i]._source.title && data[i]._source.words) {
-                        
+
                         //for source_type grants_* 
                         if (data[i]._source.meta.award_floor) {
                             if (data[i]._source.meta.award_floor != 'none') {
@@ -161,6 +161,11 @@ elasticdump.prototype.dump = function(callback, continuing, limit, offset, total
                             } else {
                                 delete data[i]._source.meta.estimated_funding;
                             }
+                        }
+
+                        // clinical trial
+                        if (data[i]._source.meta.enrollment) {
+                            data[i]._source.meta.enrollment = (typeof data[i]._source.meta.enrollment != "number") ? parseInt(data[i]._source.meta.enrollment) : data[i]._source.meta.enrollment;
                         }
 
                         delete data[i]._source.top_words;

@@ -2,7 +2,7 @@
   "author": "John Kim <yj0109@gmail.com>",
   "name": "esdump",
   "description": "from elasticdump 0.16.1",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/youngjunkim/esdump-yj.git"
