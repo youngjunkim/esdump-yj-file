@@ -136,40 +136,57 @@ elasticdump.prototype.dump = function(callback, continuing, limit, offset, total
                 var data01 = [];
                 for (var i = 0; i < data.length; i++) {
 
-                    if (data[i]._source.title && data[i]._source.words) {
+                    //courtlistener 
+                    if (data[i]._source.source_type == 'courtlistener') {
 
-                        //for source_type grants_* 
-                        if (data[i]._source.meta.award_floor) {
-                            if (data[i]._source.meta.award_floor != 'none') {
-                                data[i]._source.meta.award_floor = (typeof data[i]._source.meta.award_floor != "number") ? parseInt(data[i]._source.meta.award_floor) : data[i]._source.meta.award_floor;
-                            } else {
-                                delete data[i]._source.meta.award_floor;
+                        if (data[i]._source.meta.url) {
+
+                            if (!data[i]._source.title) {
+                                var url_arr = data[i]._source.meta.url.split('/');
+
+                                data[i]._source.title = capitalizeEachWord(url_arr[url_arr.length - 2].replace(/-/g, ' '));
                             }
-                        }
 
-                        if (data[i]._source.meta.award_ceiling) {
-                            if (data[i]._source.meta.award_ceiling != 'none') {
-                                data[i]._source.meta.award_ceiling = (typeof data[i]._source.meta.award_ceiling != "number") ? parseInt(data[i]._source.meta.award_ceiling) : data[i]._source.meta.award_ceiling;
-                            } else {
-                                delete data[i]._source.meta.award_ceiling;
+                            data01.push(data[i]);
+                        }
+                    
+                    } else {
+
+                        if (data[i]._source.title && data[i]._source.words) {
+
+                            //for source_type grants_* 
+                            if (data[i]._source.meta.award_floor) {
+                                if (data[i]._source.meta.award_floor != 'none') {
+                                    data[i]._source.meta.award_floor = (typeof data[i]._source.meta.award_floor != "number") ? parseInt(data[i]._source.meta.award_floor) : data[i]._source.meta.award_floor;
+                                } else {
+                                    delete data[i]._source.meta.award_floor;
+                                }
                             }
-                        }
 
-                        if (data[i]._source.meta.estimated_funding) {
-                            if (data[i]._source.meta.estimated_funding != 'none') {
-                                data[i]._source.meta.estimated_funding = (typeof data[i]._source.meta.estimated_funding != "number") ? parseInt(data[i]._source.meta.estimated_funding) : data[i]._source.meta.estimated_funding;
-                            } else {
-                                delete data[i]._source.meta.estimated_funding;
+                            if (data[i]._source.meta.award_ceiling) {
+                                if (data[i]._source.meta.award_ceiling != 'none') {
+                                    data[i]._source.meta.award_ceiling = (typeof data[i]._source.meta.award_ceiling != "number") ? parseInt(data[i]._source.meta.award_ceiling) : data[i]._source.meta.award_ceiling;
+                                } else {
+                                    delete data[i]._source.meta.award_ceiling;
+                                }
                             }
-                        }
 
-                        // clinical trial
-                        if (data[i]._source.meta.enrollment) {
-                            data[i]._source.meta.enrollment = (typeof data[i]._source.meta.enrollment != "number") ? parseInt(data[i]._source.meta.enrollment) : data[i]._source.meta.enrollment;
-                        }
+                            if (data[i]._source.meta.estimated_funding) {
+                                if (data[i]._source.meta.estimated_funding != 'none') {
+                                    data[i]._source.meta.estimated_funding = (typeof data[i]._source.meta.estimated_funding != "number") ? parseInt(data[i]._source.meta.estimated_funding) : data[i]._source.meta.estimated_funding;
+                                } else {
+                                    delete data[i]._source.meta.estimated_funding;
+                                }
+                            }
 
-                        delete data[i]._source.top_words;
-                        data01.push(data[i]);
+                            // clinical trial
+                            if (data[i]._source.meta.enrollment) {
+                                data[i]._source.meta.enrollment = (typeof data[i]._source.meta.enrollment != "number") ? parseInt(data[i]._source.meta.enrollment) : data[i]._source.meta.enrollment;
+                            }
+
+                            delete data[i]._source.top_words;
+                            data01.push(data[i]);
+                        }
                     }
                 }
 
@@ -214,5 +231,11 @@ elasticdump.prototype.dump = function(callback, continuing, limit, offset, total
         });
     }
 };
+
+function capitalizeEachWord(str) {
+    return str.replace(/\w\S*/g, function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+}
 
 exports.elasticdump = elasticdump;
