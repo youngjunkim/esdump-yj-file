@@ -149,7 +149,7 @@ elasticdump.prototype.dump = function(callback, continuing, limit, offset, total
 
                             data01.push(data[i]);
                         }
-                    
+
                     } else {
 
                         if (data[i]._source.title && data[i]._source.words) {
@@ -182,6 +182,27 @@ elasticdump.prototype.dump = function(callback, continuing, limit, offset, total
                             // clinical trial
                             if (data[i]._source.meta.enrollment) {
                                 data[i]._source.meta.enrollment = (typeof data[i]._source.meta.enrollment != "number") ? parseInt(data[i]._source.meta.enrollment) : data[i]._source.meta.enrollment;
+                            }
+
+                            // date
+                            if (data[i]._source.date) {
+                                if (moment(data[i]._source.date).utc().format() == "Invalid date") delete data[i]._source.date;
+                            }
+
+                            if (data[i]._source.meta.date) {
+                                if (moment(data[i]._source.meta.date).utc().format() == "Invalid date") delete data[i]._source.meta.date;
+                            }
+
+                            if (data[i]._source.meta.family) {
+                                var family_arr = data[i]._source.meta.family;
+                                if (Array.isArray(family_arr)) {
+                                    for (var j = 0; j < family_arr.length; j++) {
+
+                                        if (family_arr[j].date) {
+                                            if (moment(family_arr[j].date).utc().format() == "Invalid date") delete family_arr[j].date;
+                                        }
+                                    }
+                                }
                             }
 
                             delete data[i]._source.top_words;
