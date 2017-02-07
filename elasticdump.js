@@ -3,6 +3,7 @@ var http = require("http");
 var https = require("https");
 var EventEmitter = require('events').EventEmitter;
 var isUrl = require('./lib/is-url');
+var moment = require('moment');
 
 var elasticdump = function(input, output, options) {
     var self = this;
