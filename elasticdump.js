@@ -206,7 +206,7 @@ elasticdump.prototype.dump = function(callback, continuing, limit, offset, total
                                 }
                             }
 
-                            delete data[i]._source.top_words;
+                            // delete data[i]._source.top_words;
                             data01.push(data[i]);
                         }
                     }
